@@ -53,18 +53,18 @@ class FormWizardAdminView(WizardView, FormAdminView):
         return self.form_obj
 
     def prepare_form(self):
-        """instead, call `self.get_form()` to support form steps, etc."""
+        """call `self.get_form()` to support form steps, etc."""
         raise NotImplementedError("Just use get_form() method instead")
 
     def instance_forms(self):
-        """instead, call `self.get_form()` to support form steps, etc."""
+        """call `self.get_form()` to support form steps, etc."""
         raise NotImplementedError("Just use get_form() method instead")
 
     def post_response(self):
-        raise NotImplementedError("Overwrite post() method instead")
+        raise NotImplementedError("Overwrite post() method")
 
     def get_response(self):
-        raise NotImplementedError("Overwrite get() method instead")
+        raise NotImplementedError("Overwrite get() method")
 
     def render(self, form=None, **kwargs):
         """Returns the ``HttpResponse`` with the context data"""
@@ -122,4 +122,3 @@ class CookieWizardViewMixin(object):
 
     """
     storage_name = 'django.contrib.formtools.wizard.storage.cookie.CookieStorage'
-
