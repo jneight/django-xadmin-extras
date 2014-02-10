@@ -91,8 +91,8 @@ Now, assign the app to each model you want to get grouped and register them
     xadmin.site.register(models.Foo, AppAdmin)
 
 
- After that, you just need to extend CommAdminView (maybe you have already done this
- if you wanted to change menu style, site title, base template, etc.), with
- AppConfigViewMixin available at xadmin_extras.views
+After that, you just need to extend CommAdminView (maybe you have already done this
+if you wanted to change menu style, site title, base template, etc.), with
+AppConfigViewMixin available at xadmin_extras.views
 
 
