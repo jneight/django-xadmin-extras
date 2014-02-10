@@ -7,9 +7,9 @@ Extra functionality for `django-xadmin <http://www.github.com/django-xadmin>`_
 Form wizard
 ------------
 
-Django FormWizards backend are working with xadmin views:
+Integrate Django FormWizards with xadmin views:
 
-Any wizard view should inherit from FormWizardAdminView
+Any view using a wizard should inherit from FormWizardAdminView
 
 .. code:: python
 
@@ -25,11 +25,11 @@ Any wizard view should inherit from FormWizardAdminView
 	    title = 'FB Push notifications'
 
 
-Any Wizard backend can be used, for now, SessionWizardViewMixin and CookieWizardViewMixin are provided.
+Other wizard backends are available: SessionWizardViewMixin and CookieWizardViewMixin
 
 For more info about Form wizard, see `django documentation <https://docs.djangoproject.com/en/dev/ref/contrib/formtools/form-wizard/>`_
 
-To register view to be available at admin, use `register_view()`:
+To register a view to be available at admin, with name and protected, use `register_view()`:
 
 .. code:: python
 
@@ -95,4 +95,9 @@ After that, you just need to extend CommAdminView (maybe you have already done t
 if you wanted to change menu style, site title, base template, etc.), with
 AppConfigViewMixin available at xadmin_extras.views
 
+.. code:: python
 
+    import xadmin.views as views
+    import xadmin_extras as views_extra
+
+    xadmin.site.register(views.CommAdminView, views_extra.AppConfigViewMixin)  
