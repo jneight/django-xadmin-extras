@@ -33,9 +33,8 @@ class AppConfigViewMixin(object):
                 app_config = model_admin.app_config
                 menu.update({'app:' + app_config.name: {
                         'title': app_config.verbose_name,
-                        'menus': app_config.custom_menu,
-                        'url': '', 'order': '', 'perm': None,
-                    'first_icon': app_config.icon}})
+                        'menus': app_config.init_menu(),
+                        'first_icon': app_config.icon}})
         return menu
 
     @views.filter_hook
@@ -70,7 +69,6 @@ class AppConfigViewMixin(object):
             }
             if model_dict['url'] in had_urls:
                 continue
-
             app_key = "app:%s" % app_label
             if app_key in nav_menu:
                 nav_menu[app_key]['menus'].append(model_dict)

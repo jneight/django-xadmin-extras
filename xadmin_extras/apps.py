@@ -1,10 +1,8 @@
 # coding=utf-8
 
+import copy
 
 class AdminAppMixin(object):
-
-    def __init__(self):
-        self.custom_menu = self.init_menu()
 
     def init_menu(self):
         """Add custom menu entries to the menu displayed for this app

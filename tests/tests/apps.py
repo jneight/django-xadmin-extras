@@ -19,26 +19,26 @@ class AppConfigTest(TestCase):
     def test_get_menu(self):
         generated_menu = self.test_view.get_apps_menu()
         self.assertEqual(generated_menu,
-            {'app:testapp':
-                {'title': 'Test App', 'url': '', 'perm': None,
-                 'menus': [
-                     {'url': '/admin/testapp/testurl/', 'title': u'Test URL',
-                      'order': '', 'perm': None, 'icon': 'bolt'}],
-                 'first_icon': 'test', 'order': ''}})
+            {'app:testapp': {
+                'menus': [
+                    {'url': '/admin/testapp/testurl/', 'title': u'Test URL',
+                     'order': '', 'perm': None, 'icon': 'bolt'}],
+                'first_icon': 'test', 'title': 'Test App'}})
 
         final_menu = self.test_view.get_nav_menu()
         self.assertEqual(
             final_menu,
-            [{'first_url': '/tests/modela/', 'title': 'Test App',
-              'url': '', 'perm': None, 'menus': [
-                  {'url': '/tests/modela/', 'icon': None, 'order': 1,
-                   'perm': 'tests.view_modela', 'title': u'Model as'},
-                  {'url': '/admin/testapp/testurl/', 'title': u'Test URL',
-                   'order': '', 'perm': None, 'icon': 'bolt'}],
-              'first_icon': 'test', 'order': ''},
-             {'menus': [{'url': '/tests/modelb/', 'icon': None, 'order': 2,
-                         'perm': 'tests.view_modelb', 'title': u'Model bs'}],
-              'first_url': '/tests/modelb/', 'title': u'Tests'}])
+            [{'menus': [
+                {'url': '/tests/modela/', 'icon': None, 'order': 1,
+                 'perm': 'tests.view_modela', 'title': u'Model as'},
+                {'url': '/admin/testapp/testurl/', 'title': u'Test URL',
+                 'order': '', 'perm': None, 'icon': 'bolt'}],
+            'first_icon': 'test', 'first_url': '/tests/modela/',
+            'title': 'Test App'},
+            {'menus': [
+                {'url': '/tests/modelb/', 'icon': None, 'order': 2,
+                 'perm': 'tests.view_modelb', 'title': u'Model bs'}],
+            'first_url': '/tests/modelb/', 'title': u'Tests'}])
 
     def _create_superuser(self, username):
         return User.objects.create(username=username, is_superuser=True)
