@@ -42,7 +42,7 @@ class AppConfigViewMixin(object):
     def get_nav_menu(self):
         """Method to generate the menu"""
 
-        site_menu = list(self.get_site_menu()) or []
+        site_menu = list(self.get_site_menu() or [])
         had_urls = []
 
         def get_url(menu, had_urls):
