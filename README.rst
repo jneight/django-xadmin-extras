@@ -42,7 +42,7 @@ To register a view to be available at admin, with name and protected, use `regis
 Custom menu entries
 --------------------
 
-Using an AppConfig-like class (available for Django 1.7), custom entries can be added for the menu of each App.
+Using an `AppConfig-like class <https://docs.djangoproject.com/en/dev/ref/applications/#django.apps.AppConfig>`_  (available for Django 1.7), custom entries can be added for the menu of each App.
 
 Create a file called `apps.py` at your app folder, create a class and edit `init_menu()`
 
