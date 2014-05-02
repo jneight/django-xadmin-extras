@@ -5,7 +5,7 @@ from django.utils.decorators import classonlymethod
 from django.template.response import TemplateResponse
 from functools import update_wrapper
 
-from .form import FormAdminView, csrf_protect_m, filter_hook
+from xadmin.views.form import FormAdminView, csrf_protect_m, filter_hook
 
 
 class FormWizardAdminView(WizardView, FormAdminView):

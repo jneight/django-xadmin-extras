@@ -13,4 +13,7 @@ class AdminAppMixin(object):
         also 'perm' and 'order' keys can be added.
 
         """
-        return {}
+        return []
+
+    def has_menu_permission(self, obj=None):
+        return True

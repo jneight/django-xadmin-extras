@@ -30,18 +30,22 @@ class AppConfigViewMixin(object):
         menu = {}
         for model, model_admin in self.admin_site._registry.items():
             if hasattr(model_admin, 'app_config'):
-                app_config = model_admin.app_config
-                menu.update({'app:' + app_config.name: {
-                        'title': app_config.verbose_name,
-                        'menus': app_config.init_menu(),
-                        'first_icon': app_config.icon}})
+                if model_admin.app_config.has_menu_permission(obj=self.user):
+                    menu.update({
+                        'app:' + model_admin.app_config.name: {
+                        'title': model_admin.app_config.verbose_name,
+                        'menus': model_admin.app_config.init_menu(),
+                        'first_icon': model_admin.app_config.icon}})
         return menu
 
     @views.filter_hook
     def get_nav_menu(self):
         """Method to generate the menu"""
-
-        site_menu = list(self.get_site_menu() or [])
+        _menu = self.get_site_menu()
+        if _menu:
+            site_menu = list(_menu)
+        else:
+            site_menu = []
         had_urls = []
 
         def get_url(menu, had_urls):
