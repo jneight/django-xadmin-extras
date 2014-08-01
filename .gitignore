@@ -1,4 +1,5 @@
 *.log
 *.pot
 *.pyc
+.ropeproject
 local_settings.py
