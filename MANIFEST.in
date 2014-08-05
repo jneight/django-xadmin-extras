@@ -1,0 +1,8 @@
+include LICENSE
+include README.rst
+
+graft xadmin_extras
+global-exclude *.orig *.pyc *.log *.swp
+prune xadmin_extras/tests/coverage
+prune xadmin_extras/.ropeproject
+recursive-include xadmin_extras *
