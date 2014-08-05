@@ -1,7 +1,14 @@
 django-xadmin-extras
 =====================
 
-Extra functionality for `django-xadmin <http://www.github.com/django-xadmin>`_
+Extra features for `django-xadmin <http://www.github.com/django-xadmin>`_
+
+New features:
+-------------
+
+  * Form wizard class working like django form wizard.
+  * Allow adding custom menu entries via AppConfig.
+  * `django-hstore <https://github.com/djangonauts/django-hstore>`_ support when editing objects.
 
 
 Form wizard
@@ -101,3 +108,21 @@ AppConfigViewMixin available at xadmin_extras.views
     import xadmin_extras as views_extra
 
     xadmin.site.register(views.CommAdminView, views_extra.AppConfigViewMixin)  
+
+
+django-hstore support
+----------------------
+
+Add the widget ``XadminHStoreWidget`` to your form definition:
+
+.. code:: python
+
+	from django_hstore.forms import DictionaryField
+	from xadmin_extras.django_hstore.widgets import XAdminHStoreWidget
+	from django import forms
+	
+	
+	class HStoreForm(forms.Form):
+		data = DictionaryField(widget=XadminHStoreWidget())
+	
+	
