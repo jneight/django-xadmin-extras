@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 
 from django_settings import dataapi, forms, models
 
+
 class SettingsAdmin(object):
     """Just add support for django-settings to xadmin
 
