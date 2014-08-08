@@ -9,6 +9,11 @@ New features:
   * Form wizard class working like django form wizard.
   * Allow adding custom menu entries via AppConfig.
   * `django-hstore <https://github.com/djangonauts/django-hstore>`_ support when editing objects.
+  * Views for external apps:
+  
+  	+ `django-celery <https://github.com/celery/django-celery>`_
+  	+ `django-settings <https://github.com/jqb/django-settings>`_
+  	+ `django-mail-factory <https://github.com/novapost/django-mail-factory>`_
 
 
 Form wizard
@@ -126,3 +131,55 @@ Add the widget ``XadminHStoreWidget`` to your form definition:
 		data = DictionaryField(widget=XadminHStoreWidget())
 	
 	
+External apps support
+----------------------
+
+Apps with custom views are defined at ``ext`` folder
+
+
+**django-celery**
+
+	.. code:: python
+	
+		import xadmin_extras.ext.celery as ext_celery
+		
+		xadmin.site.register(
+			ext_celery.celery_models.PeriodicTask, ext_celery.PeriodicTaskAdmin)
+		xadmin.site.register(
+			ext_celery.celery_models.IntervalSchedule,
+			ext_celery.IntervalScheduleAdmin)
+		xadmin.site.register(
+			ext_celery.celery_models.CrontabSchedule,
+			ext_celery.CrontabScheduleAdmin)
+		
+
+**django-settings**
+
+	.. code:: python
+	
+		import xadmin_extras.ext.settings as ext_settings
+		
+		xadmin.site.register(ext_settings.models.Setting, ext_settings.SettingsAdmin)
+
+
+**django-mail-factory**
+
+	(By default, the mails will be at URL: /admin/mails/)
+	
+	.. code:: python
+	
+		from xadmin.views import CommAdminView, filter_hook, FormAdminView
+
+		import xadmin_extras.ext.mailfactory as ext_mailfactory
+		
+		xadmin.site.register_view(
+    			r'^mails/$', ext_mailfactory.MailListView, name='mail_factory_list')
+		xadmin.site.register_view(
+    			r'^mails/(?P<mail_name>.*)/$',ext_mailfactory.MailFormView, name='mail_factory_form')
+		xadmin.site.register_view(
+    			r'^mails/(?P<mail_name>.*)/preview/(?P<lang>\w+)/$',
+    			ext_mailfactory.MailPreviewMessageView, name='mail_factory_preview_message')
+		
+
+
+
