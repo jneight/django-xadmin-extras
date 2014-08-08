@@ -10,7 +10,6 @@ setup(
     name='django-xadmin-extras',
     version=xae.__version__,
     url='https://github.com/jneight/django-xadmin-extras',
-    install_requires=['django-mail-factory'],
     description="Extensions for django-xadmin",
     author=xae.__author__,
     author_email=xae.__email__,
