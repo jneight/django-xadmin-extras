@@ -6,3 +6,4 @@ global-exclude *.orig *.pyc *.log *.swp
 prune xadmin_extras/tests/coverage
 prune xadmin_extras/.ropeproject
 recursive-include xadmin_extras *
+recursive-exclude * *.pyc *.swp

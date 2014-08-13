@@ -19,7 +19,7 @@ class XAdminHStoreWidget(BaseAdminHStoreWidget):
         ]
 
         internal_js = [
-            "django_hstore/hstore-xadmin-widget.js"
+            "django-hstore/hstore-xadmin-widget.js"
         ]
 
         js = external_js + [static("xadmin/vendor/%s" % path) for path in internal_js]
