@@ -115,3 +115,14 @@ class AppConfigViewMixin(object):
         site_menu.sort(key=lambda x: x['title'])
         return site_menu
 
+
+class MultipleFormsMixin(object):
+    form_add = None
+
+    def get_model_form(self, **kwargs):
+        if self.form_add is not None:
+            obj = self.get_form_datas().get('instance', None)
+            if not obj or obj.pk is obj._meta.pk.get_default():
+                return self.form_add
+            return super(MultipleFormsMixin, self).get_model_form(**kwargs)
+
