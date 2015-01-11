@@ -6,12 +6,15 @@
 """
 
 import sys
-
-from xadmin import views
-from xadmin.util import sortkeypicker
+import copy
 
 from django.utils.datastructures import SortedDict
 from django.utils.text import capfirst
+from django.utils.translation import ugettext_lazy as _
+
+from xadmin import views
+from xadmin.util import sortkeypicker
+from xadmin.layout import FormHelper, Layout, Fieldset, TabHolder, Container, Column, Col, Field
 
 
 class AppConfigViewMixin(object):
@@ -118,11 +121,53 @@ class AppConfigViewMixin(object):
 
 class MultipleFormsMixin(object):
     form_add = None
+    layout_add = None
 
+    def _doing_add(self):
+        obj = self.get_form_datas().get('instance', None)
+        if not obj or obj.pk is obj._meta.pk.get_default():
+            return True
+        return False
+
+    @views.filter_hook
     def get_model_form(self, **kwargs):
-        if self.form_add is not None:
-            obj = self.get_form_datas().get('instance', None)
-            if not obj or obj.pk is obj._meta.pk.get_default():
-                return self.form_add
-            return super(MultipleFormsMixin, self).get_model_form(**kwargs)
+        if self._doing_add() and self.form_add is not None:
+            return self.form_add
+        return super(MultipleFormsMixin, self).get_model_form(**kwargs)
 
+    @views.filter_hook
+    def get_form_layout(self):
+        if not self._doing_add() or self.form_layout_add is None:
+            return super(MultipleFormsMixin, self).get_model_form(**kwargs)
+        layout = copy.deepcopy(self.form_layout_add)
+        fields = self.form_obj.fields.keys()
+        return self._get_form_layout(layout, fields)
+
+    def _get_form_layout(self, layout, fields):
+        if layout is None:
+            layout = Layout(Container(Col('full',
+                Fieldset("", *fields, css_class="unsort no_title"), horizontal=True, span=12)
+                ))
+        elif type(layout) in (list, tuple) and len(layout) > 0:
+            if isinstance(layout[0], Column):
+                fs = layout
+            elif isinstance(layout[0], (Fieldset, TabHolder)):
+                fs = (Col('full', *layout, horizontal=True, span=12),)
+            else:
+                fs = (Col('full', Fieldset("", *layout, css_class="unsort no_title"), horizontal=True, span=12),)
+            layout = Layout(Container(*fs))
+            rendered_fields = [i[1] for i in layout.get_field_names()]
+            container = layout[0].fields
+            other_fieldset = Fieldset(_(u'Other Fields'), *[f for f in fields if f not in rendered_fields])
+            if len(other_fieldset.fields):
+                if len(container) and isinstance(container[0], Column):
+                    container[0].fields.append(other_fieldset)
+                else:
+                    container.append(other_fieldset)
+        return layout
+
+    @views.filter_hook
+    def get_readonly_fields(self):
+        if self._doing_add() and self.form_add is not None:
+            return []
+        return super(MultipleFormsMixin, self).get_readonly_fields()
