@@ -138,7 +138,7 @@ class MultipleFormsMixin(object):
     @views.filter_hook
     def get_form_layout(self):
         if not self._doing_add() or self.form_layout_add is None:
-            return super(MultipleFormsMixin, self).get_model_form(**kwargs)
+            return super(MultipleFormsMixin, self).get_form_layout()
         layout = copy.deepcopy(self.form_layout_add)
         fields = self.form_obj.fields.keys()
         return self._get_form_layout(layout, fields)
@@ -171,3 +171,4 @@ class MultipleFormsMixin(object):
         if self._doing_add() and self.form_add is not None:
             return []
         return super(MultipleFormsMixin, self).get_readonly_fields()
+
