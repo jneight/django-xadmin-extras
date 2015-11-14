@@ -7,8 +7,9 @@
 
 import sys
 import copy
+import collections
 
-from django.utils.datastructures import SortedDict
+from django.utils.encoding import smart_text
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 
@@ -60,7 +61,7 @@ class AppConfigViewMixin(object):
         get_url({'menus': site_menu}, had_urls)
 
         # get base menu with apps already configurated
-        nav_menu = SortedDict(self.get_apps_menu())
+        nav_menu = collections.OrderedDict(self.get_apps_menu())
 
         for model, model_admin in self.admin_site._registry.items():
             if getattr(model_admin, 'hidden_menu', False):
@@ -68,7 +69,7 @@ class AppConfigViewMixin(object):
             app_config = getattr(model_admin, 'app_config', None)
             app_label = app_config.name if app_config else model._meta.app_label
             model_dict = {
-                'title': unicode(capfirst(model._meta.verbose_name_plural)),
+                'title': smart_text(capfirst(model._meta.verbose_name_plural)),
                 'url': self.get_model_url(model, "changelist"),
                 'icon': self.get_model_icon(model),
                 'perm': self.get_model_perm(model, 'view'),
@@ -85,7 +86,7 @@ class AppConfigViewMixin(object):
                 if app_config:
                     app_title = model_admin.app_config.verbose_name
                 else:
-                    app_title = unicode(app_label.title())
+                    app_title = smart_text(app_label.title())
                     if app_label.lower() in self.apps_label_title:
                         app_title = self.apps_label_title[app_label.lower()]
                     else:

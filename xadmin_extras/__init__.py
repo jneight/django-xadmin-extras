@@ -4,7 +4,7 @@ def get_version():
     return '%s.%s' % (VERSION[0], VERSION[1])
 
 
-VERSION = (0, 14,)
+VERSION = (0, 15,)
 
 __version__ = get_version()
 __author__ = 'Javier Cordero'
