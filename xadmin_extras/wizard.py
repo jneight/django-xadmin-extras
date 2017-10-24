@@ -1,6 +1,10 @@
 # coding=utf-8
 
-from django.contrib.formtools.wizard.views import WizardView
+try:
+    # For Django < 1.8
+    from django.contrib.formtools.wizard.views import WizardView
+except:
+    from formtools.wizard.views import WizardView
 from django.utils.decorators import classonlymethod
 from django.template.response import TemplateResponse
 from functools import update_wrapper
